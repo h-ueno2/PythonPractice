@@ -1,5 +1,16 @@
 def main():
-    print(__name__)
+    for i in range(1, 101):
+        print(answer(i))
+
+
+def answer(num: int) -> str:
+    if(num % 15 == 0):
+        return "FizzBuzz"
+    if(num % 3 == 0):
+        return "Fizz"
+    if(num % 5 == 0):
+        return "Buzz"
+    return str(num)
 
 
 if __name__ == "__main__":
