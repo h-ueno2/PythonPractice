@@ -1,10 +1,10 @@
 version: "3"
 services:
   python:
-    build: ./python
+    build: ./dockerfile
     container_name: "python"
     ports:
       - 8090:80
     tty: true
     volumes:
-      - ./opt:/root/opt
+      - ./src:/usr/src
