@@ -1,3 +1,4 @@
+from functools import wraps
 from dataclasses import dataclass
 from functools import lru_cache
 from time import sleep
@@ -64,3 +65,44 @@ def func(x, y):
 
 
 print(func(1, 2))
+
+
+# デコレータ自身も引数を受け取るパターン
+def deco3(z):
+    def _deco3(f):
+        def wrapper(*args, **kwargs):
+            print('before exec', z)
+            v = f(*args, **kwargs)  # ここで渡されてきた元の関数を実行する。
+            print('after exec', z)
+            return v
+        return wrapper
+    return _deco3
+
+
+@deco3(z=3)
+def func(x, y):
+    print('exec')
+    return 1
+
+
+print(func(1, 2))
+
+
+def deco4(f):
+    @wraps(f)  # もとの関数を引数にとるデコレータ→ 関数の名前やDocstringを元の関数で置き換える
+    def wrapper(*args, **kwargs):
+        print('before exec')
+        v = f(*args, **kwargs)  # ここで渡されてきた元の関数を実行する。
+        print('after exec')
+        return v
+    return wrapper
+
+
+def func():
+    """funcです！！
+    """
+    print('exec')
+
+
+print(func.__name__)
+print(func.__doc__)
