@@ -1,3 +1,6 @@
+from contextlib import contextmanager
+
+
 class ContextManager:
     # 前処理
     def __enter__(self):
@@ -41,6 +44,28 @@ class Point:
     def __exit__(self, exc_type,  exc_value, traceback):
         print('__exit__  was called')
         print(self.value)
+
+
+with Point(x=1, y=2) as p:
+    print(p)
+    p['z'] = 3
+
+
+@contextmanager
+def point(**kwargs):
+    print('__enter__ was called')
+    value = kwargs
+    try:
+        # yield以前が前処理
+        yield value  # as に渡る
+        # yield以後が後処理
+    except Exception as e:
+        # エラー時はこちらも呼ばれる
+        print(e)
+        raise
+    finally:
+        print('__exit__ was called')
+        print(value)
 
 
 with Point(x=1, y=2) as p:
